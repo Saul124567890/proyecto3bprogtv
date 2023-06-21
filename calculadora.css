@@ -1,0 +1,15 @@
+body{
+	background-color: #5Fc8a9;
+}
+.center{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	width: 500px;
+}
+.titulo{
+	font-family: "Gunmetal", sans-serif;
+	font-size: 40px;
+	align-content: center;
+}

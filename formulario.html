@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<div style="margin: 24px;">
+		<nav class="navbar navbar-inverse navbar-stick-static-top" style="background-color: blue;">
+			<div class="container">
+				<a class="navbar-brand" href="index.html">Inicio</a>
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="index.html">Menu</a>
+					</li>
+					<li>
+					<a href="formulario.html">Formulario</a>
+				</li>
+				<li>
+					<a href="pelicula.html">Pelicula</a>
+				</li>
+				<li>
+					<a href="perfil.html">Contacto</a>
+				</li>
+        <li>
+          <a href="calculadora.html">Fisica</a>
+        </li>
+        <li>
+          <a href="calculadora2.html">Calculadora</a>
+        </li>
+			</ul>
+		</div>
+	</nav>
+</div>
+	</nav>
+	<style type="text/css">
+		body{
+			background-color: #5Fc8a9;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+			margin: 0;
+		}
+		.quiz-container{
+			background-color: darkred;
+			border-radius: 20;
+			box-shadow: 0 0 10px 2px rgb(5, 1, 5);
+		}
+		.quiz-header{
+			padding: 4px;
+			text-align: center;
+			margin: 0;
+		}
+		ul{
+			list-style-type: square;
+			padding: 0;
+		}
+		ul li{
+			font-size: 24px;
+			margin: 5px 0;
+		}
+		ul li label{
+			cursor: pointer;
+		}
+		button{
+			background-color: darkkhaki;
+			color: black;
+			border: none;
+			display: block;
+			width: 100%;
+			cursor: pointer;
+			font-size: 14px;
+			padding: 15px;
+		}
+		button:hover{
+			background-color: darkcyan;
+		}
+		button:focus{
+			outline: none;
+			background-color: green;
+		}
+	</style>
+	<div class="container">
+		<div class="quiz-container">
+			<div class="quiz-header">
+				<div class="image-container">
+					<img src="https://static.wikia.nocookie.net/hollowknight/images/5/57/Nailsmith.png/revision/latest?cb=20180115204824&path-prefix=es" alt="imagen" id="question-image" style="width: 250px; height: auto;">
+				</div>
+				<h2 id="question">Question test</h2>
+				<ul>
+					<li>
+						<input type="radio" name="answer"
+						id="a" class="answer">
+						<label for="a" id="a_text">Question</label>
+					</li>
+					<li>
+						<input type="radio" name="answer"
+						id="b" class="answer">
+						<label for="b" id="b_text">Question</label>
+					</li>
+					<li>
+						<input type="radio" name="answer"
+						id="c" class="answer">
+						<label for="c" id="c_text">Question</label>
+					</li>
+					<li>
+						<input type="radio" name="answer"
+						id="d" class="answer">
+						<label for="d" id="d_text">Question</label>
+					</li>
+				</ul>
+			</div>
+			<button id="submit">Siguiente</button>
+		</div>
+	</div>
+	<script type="text/javascript">
+		const quizData = [
+		{
+				question: "Cuantas mejoras puedes hacer con el forja aguijones?";
+			image: "https://static.wikia.nocookie.net/hollowknight/images/5/57/Nailsmith.png/revision/latest?cb=20180115204824&path-prefix=es";
+			a:"5",
+			b:"3",
+			c:"4",
+			d:"6",
+			correct: "c"
+		},
+		{
+				question: "Cuantas mascaras maximas puedes obtener?";
+			image: "https://static.wikia.nocookie.net/hollowknight/images/2/20/Ancient_Mask.png/revision/latest?cb=20170416183614";
+			a:"9",
+			b:"8",
+			c:"7",
+			d:"6",
+			correct: "a"
+		},
+		{
+				question: "Cuantos encuentros tienes con hornet durante la aventura?";
+			image: "https://static.wikia.nocookie.net/hollowknight/images/1/16/Hornet_Idle.png/revision/latest?cb=20181124144744";
+			a:"7",
+			b:"8",
+			c:"2",
+			d:"1",
+			correct: "b"
+		},
+		{
+				question: "Quien es el jefe final del juego?";
+			image: "https://static.wikia.nocookie.net/hollowknight/images/1/16/Hornet_Idle.png/revision/latest?cb=20181124144744";
+			a:"Señor del vacio",
+			b:"Hollow knight",
+			c:"Vasija pura",
+			d:"El destello",
+			correct: "d"
+		},
+		];
+
+		const quiz = document.getElementById('quiz');
+		const answerEls = document.querySelectorAll('.answer');
+		const questionEl = document.getElementById('question');
+		const a_text = document.getElementById('a_text');
+		const b_text = document.getElementById('b_text');
+		const c_text = document.getElementById('c_text');
+		const d_text = document.getElementById('d_text');
+		const submitBtn = document.getElementById('submit');
+
+		let currentQuiz = 0;
+		let score = 0;
+
+		loadQuiz();
+
+		function loadQuiz() {
+			deselectAnswers();
+			const currentQuizData = quizData[currentQuiz];
+			questionEl.innerText = currentQuizData.question;
+			a_text.innerText = currentQuizData.a;
+			b_text.innerText = currentQuizData.b;
+			c_text.innerText = currentQuizData.c;
+			d_text.innerText = currentQuizData.d;
+
+			const questionImage = document.getElementById("question-image");
+			questionImage.src = currentQuizData.image;
+		}
+
+		function deselectAnswers() {
+			answerEls.forEach(answerEl => answerEl.checked = false);
+		}
+
+		function getSelected() {
+			let answer;
+
+			answerEls.forEach(answerEl => {
+				if(answerEl.checked) {
+					answer = answerEl.id;
+				}
+			});
+
+			return answer;
+		}
+
+		submitBtn.addEventListener('click', () => {
+			const answer = getSelected();
+
+			if(answer) {
+				if(answer === quizData[currentQuiz].correct) {
+					score++;
+				}
+
+				currentQuiz++;
+				if(currentQuiz < quizData.lenght) {
+					loadQuiz()
+				} else {
+					quiz.innerHTML =  ‛
+					<h2>Contestaste ${score}/${quizData.lenght} de preguntas correctamente</h2>
+
+					<button onclick ="location.reload()">Reload</button>
+					 ‛
+					
+					}
+				}
+			}
+		})
+	</script>
+<div id="footer"></div>
+<footer style="bottom: -25px;
+position: absolute;
+width: 100%;">
+	<div class="container">
+		<div class="footer-content">
+			<div class="footer-section about">
+				<h1>Contactame</h1>
+				<p>Si estas interesado en contactarme, puedes hacerlo a traves de cualquiera de las siguientes redes sociales</p>
+				<div class="contact-links">
+					<a href="http://www.facebook.com/miperfil" target="_blank"><i class="fab fa-facebook"></i></a>
+					<a href="http://www.facebook.com/miperfil" target="_blank"><i class="fab fa-instagram"></i></a>
+					<a href="http://www.facebook.com/miperfil" target="_blank"><i class="fab fa-discord"></i></a>
+					<a href="http://www.facebook.com/miperfil" target="_blank"><i class="fab fa-reddit"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+<!--con lo siguiente, hare que los links de las paginas se abran mediante javascript en una pagina nueva -->
+<script type="text/javascript">
+	const socialnetworks = document.querySelectorAll('contact-links a');
+	socialnetworks.forEach(link =>{
+		link.addEventListener('click', e=>{
+			e.preventDefault();
+			window.open(link.href, '_blank');
+		});
+	});
+</script>
+</body>
+</html>
